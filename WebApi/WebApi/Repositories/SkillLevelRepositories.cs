@@ -16,19 +16,27 @@ namespace WebApi.Repositories
         {
             this.appDbContext = appDbContext;
         }
-        public Task CreateSkillLevel(SkillLevel skillLevel)
+        public async Task<SkillLevel> CreateSkillLevel(SkillLevel skillLevel)
         {
-            throw new NotImplementedException();
+            var result = await appDbContext.SkillLevel.AddAsync(skillLevel);
+            await appDbContext.SaveChangesAsync();
+            return result.Entity;
         }
 
-        public Task DeleteSkillLevel(string id)
+        public async Task DeleteSkillLevel(int id)
         {
-            throw new NotImplementedException();
+            var result = await appDbContext.SkillLevel.FirstOrDefaultAsync(s => s.SkillLevelId == id);
+
+            if(result != null)
+            {
+                appDbContext.SkillLevel.Remove(result);
+                await appDbContext.SaveChangesAsync();
+            }
         }
 
-        public Task<SkillLevel> GetSkillLevel(string id)
+        public async Task<SkillLevel> GetSkillLevel(int id)
         {
-            throw new NotImplementedException();
+            return await appDbContext.SkillLevel.FirstOrDefaultAsync(s => s.SkillLevelId == id);
         }
 
         public async Task<IEnumerable<SkillLevel>> GetSkillLevels()
@@ -36,9 +44,16 @@ namespace WebApi.Repositories
             return await appDbContext.SkillLevel.ToListAsync();
         }
 
-        public Task UpdateSkillLevel(SkillLevel skillLevel)
+        public async Task UpdateSkillLevel(int id, SkillLevel skillLevel)
         {
-            throw new NotImplementedException();
+            var result = await appDbContext.SkillLevel.FirstOrDefaultAsync(s => s.SkillLevelId == id);
+
+            if (result != null)
+            {
+                result.SkillLevelName = skillLevel.SkillLevelName;
+
+                await appDbContext.SaveChangesAsync();
+            }
         }
     }
 }

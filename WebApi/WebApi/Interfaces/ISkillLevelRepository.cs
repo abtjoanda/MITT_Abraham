@@ -9,9 +9,9 @@ namespace WebApi.Interfaces
     public interface ISkillLevelRepository
     {
         Task<IEnumerable<SkillLevel>> GetSkillLevels();
-        Task<SkillLevel> GetSkillLevel(string id);
-        Task CreateSkillLevel(SkillLevel skillLevel);
-        Task UpdateSkillLevel(SkillLevel skillLevel);
-        Task DeleteSkillLevel(string id);
+        Task<SkillLevel> GetSkillLevel(int id);
+        Task<SkillLevel> CreateSkillLevel(SkillLevel skillLevel);
+        Task UpdateSkillLevel(int id, SkillLevel skillLevel);
+        Task DeleteSkillLevel(int id);
     }
 }
